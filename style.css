@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+*{
+  font-family: "Lato", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+body{
+        background: #FFF5E1;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+form{
+    width: 60vw;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 2rem;
+    row-gap: 1rem;
+}
+
+.row{
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    width: calc(50% - 1rem);
+}
+
+label{
+    font-weight: 500;
+    color: #8B4513;
+}
+
+input{
+    width: 100%;
+    height: 2.5rem;
+    border: none;
+    outline: none;
+    padding: 0px .5rem;
+}
+
+h1{
+    width: 100%;
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: #8B4513;
+    margin-bottom: 2rem;
+}
+
+button{
+    height: 2.5rem;
+    width: calc(50% - 1rem);
+    border: none;
+    outline: none;
+    margin-top: 2rem;
+}
+.error{
+    outline: 2px red solid;
+}
+input {
+  background-color: #FFC0CB; 
+  border: 1px solid #8B4513; 
+  padding: 0.5rem;
+  border-radius: 6px;
+  color: #333;
+}
+
+
+input:focus {
+  background-color: #fff;   
+  border-color: #8B4513;     
+  outline: none;
+}
+input.error {
+  border: 2px solid red !important;
+}
+
+button[type="submit"] {
+  background-color: #8B4513;
+  color: white;                
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #b36c39;
+}
+
+
+button[type="reset"] {
+  background-color: #8B4513;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button[type="reset"]:hover {
+  background-color: #b36c39;
+}
+

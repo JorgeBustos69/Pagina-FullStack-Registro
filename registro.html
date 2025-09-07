@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <form action="#" id="formulario">
+        <h1>Crear cuenta nueva 🍰</h1>
+        <div class="row">
+            <label for="nombres">Nombres: </label>
+            <input type="text" id="nombres"placeholder="Pato Carlo" required>
+        </div>
+        <div class="row">
+            <label for="apellidos">Apellidos: </label>
+            <input type="text" id="apellidos"placeholder="Rey Follador"required>
+        </div>
+        <div class="row">
+            <label for="direccion">Direccion: </label>
+            <input type="text" id="direccion"placeholder="Chimbarongo"required>
+        </div>
+        <div class="row">
+            <label for="correo">Correo: </label>
+            <input type="text" id="correo"placeholder="patocarse@gmail.com"required>
+        </div>
+        <div class="row">
+            <label for="contraseña">Contraseña: </label>
+            <input type="password" id="contraseña"placeholder="contraseñacienporcientosegura"required>
+        </div>
+        <div class="row">
+            <label for="confirmar">Confirmar contraseña: </label>
+            <input type="password" id="confirmar"placeholder="contraseñacienporcientosegura"required>
+        </div>
+        <div class="row">
+            <label for="edad">Edad: </label>
+            <input type="number" id="edad" placeholder="28" min="0" max="150" maxlength="3" required>
+
+
+        </div>
+        <div class="row">
+            <label for="codigo">Codigo de registro (solo si tiene alguno) </label>
+            <input type="text" id="codigo"placeholder="CODIGODSCTO123">
+        </div>
+
+        <button type="reset">Limpiar</button>
+        <button type="submit">Enviar</button>
+        <p id="errores">&nbsp;</p>
+
+
+
+
+
+    </form>
+    <script src="function.js"></script>
+
+    </script>
+    
+</body>
+</html>
