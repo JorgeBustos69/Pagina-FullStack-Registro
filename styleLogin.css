@@ -10,35 +10,21 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh;
+
 }
-a:hover{
-    color: #FFC0CB;
-}
-a{
-    text-decoration: none;
-    color: #8B4513;
-    font-weight: 500;
-    background-color: #df9a69;
-    
-} 
-#primera {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: #df9a69;
-  padding: 1rem;
+form {
   display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 450px;
+  margin: 0 auto ;
+  align-items: center;
   justify-content: center;
-  gap: 2rem; 
-  z-index: 1000;
-}
-form{
-    width: 60vw;
-    display: flex;
-    flex-wrap: wrap;
-    column-gap: 2rem;
-    row-gap: 1rem;
+  background-color: rgb(240, 205, 211);
+  border-radius: 8px;
+  
+  
 }
 
 .row{
@@ -67,14 +53,16 @@ h1{
     font-weight: 500;
     color: #8B4513;
     margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 button{
-    height: 2.5rem;
-    width: calc(50% - 1rem);
-    border: none;
-    outline: none;
-    margin-top: 2rem;
+  align-self: flex-end;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  width: auto; 
 }
 .error{
     outline: 2px red solid;
@@ -109,18 +97,27 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background-color: #b36c39;
 }
+#primera {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #df9a69;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 2rem; 
+  z-index: 1000;
+}
+a:hover{
+    color: #FFC0CB;
+}
+a{
+    text-decoration: none;
+    color: #8B4513;
+    font-weight: 500;
+    background-color: #df9a69;
 
-
-button[type="reset"] {
-  background-color: #8B4513;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  cursor: pointer;
 }
 
-button[type="reset"]:hover {
-  background-color: #b36c39;
-}
 
