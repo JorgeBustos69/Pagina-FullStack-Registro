@@ -96,3 +96,28 @@ a:hover {
   color: #b36c39;
   margin-top: 5px;
 }
+.text-brown {
+  color: #8b4513;
+}
+
+body {
+  background-color: #fff8e1;
+}
+
+.card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.btn-warning {
+  background-color: #f5b041;
+  border: none;
+}
+
+.btn-warning:hover {
+  background-color: #e59819;
+}

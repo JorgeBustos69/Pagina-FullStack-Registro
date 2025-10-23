@@ -1,17 +1,17 @@
-// src/Components/Carrito.jsx
-import React, { useState, useEffect } from 'react';
-import Navegacion from './Navegacion'; 
-import '../styles/styleCarrito.css';
-import '../styles/style.css'; 
+import React, { useState, useEffect } from "react";
+import Navegacion from "./Navegacion";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../styles/styleCarrito.css";
+import "../styles/style.css";
 
 const Carrito = () => {
   const [carrito, setCarrito] = useState(() => {
-    const stored = localStorage.getItem('carrito');
+    const stored = localStorage.getItem("carrito");
     return stored ? JSON.parse(stored) : [];
   });
 
   useEffect(() => {
-    localStorage.setItem('carrito', JSON.stringify(carrito));
+    localStorage.setItem("carrito", JSON.stringify(carrito));
   }, [carrito]);
 
   const calcularTotal = () =>
@@ -32,83 +32,119 @@ const Carrito = () => {
   const handleVaciar = () => {
     if (window.confirm("¿Seguro que quieres vaciar el carrito?")) {
       setCarrito([]);
+      localStorage.removeItem("carrito");
     }
   };
 
- const handlePagar = () => {
-  const total = calcularTotal();
+  const handlePagar = () => {
+    const total = calcularTotal();
 
-  if (carrito.length === 0) {
-    alert("Tu carrito está vacío.");
-    return;
-  }
+    if (carrito.length === 0) {
+      alert("Tu carrito está vacío.");
+      return;
+    }
 
-  alert(`💰 Pago realizado con éxito.\nTotal: $${total.toLocaleString("es-CL")}`);
-
-  setCarrito([]);
-  localStorage.removeItem("carrito");
-
-};
-
+    alert(`💰 Pago realizado con éxito.\nTotal: $${total.toLocaleString("es-CL")}`);
+    setCarrito([]);
+    localStorage.removeItem("carrito");
+  };
 
   return (
-    <div>
+    <>
       <Navegacion />
-      <div className="carrito-container">
-        <h1>🛒 Carrito de Compras</h1>
+
+      <div className="container py-5">
+        <h1 className="text-center mb-4 text-brown">
+          🛒 Carrito de Compras
+        </h1>
 
         {carrito.length === 0 ? (
-          <p>Tu carrito está vacío.</p>
+          <div className="alert alert-warning text-center" role="alert">
+            Tu carrito está vacío.
+          </div>
         ) : (
-          <table className="tabla-carrito">
-            <thead>
-              <tr>
-                <th>Imagen</th>
-                <th>Nombre</th>
-                <th>Precio</th>
-                <th>Cantidad</th>
-                <th>Subtotal</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {carrito.map((item, index) => (
-                <tr key={index}>
-                  <td>
-                    <img src={item.imagen} alt={item.nombre} width="70" style={{ borderRadius: "8px" }} />
-                  </td>
-                  <td>{item.nombre}</td>
-                  <td>${item.precio.toLocaleString("es-CL")}</td>
-                  <td>
-                    <input
-                      type="number"
-                      min="1"
-                      value={item.cantidad}
-                      onChange={(e) => handleCantidadChange(index, e.target.value)}
-                      style={{ width: "60px", textAlign: "center" }}
-                    />
-                  </td>
-                  <td>${(item.precio * item.cantidad).toLocaleString("es-CL")}</td>
-                  <td>
-                    <button className="eliminar-btn" onClick={() => handleEliminar(index)}>
-                      Eliminar
-                    </button>
-                  </td>
+          <div className="table-responsive">
+            <table className="table table-bordered align-middle shadow-sm">
+              <thead className="table-warning text-center">
+                <tr>
+                  <th>Imagen</th>
+                  <th>Nombre</th>
+                  <th>Precio</th>
+                  <th>Cantidad</th>
+                  <th>Subtotal</th>
+                  <th>Acciones</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {carrito.map((item, index) => (
+                  <tr key={index}>
+                    <td className="text-center">
+                      <img
+                        src={item.imagen}
+                        alt={item.nombre}
+                        width="80"
+                        className="rounded shadow-sm"
+                      />
+                    </td>
+                    <td>{item.nombre}</td>
+                    <td className="text-center">
+                      ${item.precio.toLocaleString("es-CL")}
+                    </td>
+                    <td className="text-center">
+                      <input
+                        type="number"
+                        min="1"
+                        value={item.cantidad}
+                        onChange={(e) =>
+                          handleCantidadChange(index, e.target.value)
+                        }
+                        className="form-control text-center mx-auto"
+                        style={{ width: "80px" }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      ${(item.precio * item.cantidad).toLocaleString("es-CL")}
+                    </td>
+                    <td className="text-center">
+                      <button
+                        className="btn btn-sm btn-danger"
+                        onClick={() => handleEliminar(index)}
+                      >
+                        <i className="bi bi-trash"></i> Eliminar
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
 
         {carrito.length > 0 && (
-          <div className="acciones">
-            <h2>Total: ${calcularTotal().toLocaleString("es-CL")}</h2>
-            <button className="vaciar" onClick={handleVaciar}>Vaciar Carrito</button>
-            <button className="pagar" onClick={handlePagar}>Comprar ahora</button>
+          <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mt-4 p-3 bg-light rounded shadow-sm">
+            <h4 className="mb-3 mb-md-0 text-brown">
+              Total: ${calcularTotal().toLocaleString("es-CL")}
+            </h4>
+
+            <div>
+              <button
+                className="btn btn-outline-danger me-2"
+                onClick={handleVaciar}
+              >
+                🗑️ Vaciar Carrito
+              </button>
+
+              <button
+                className="btn btn-success"
+                onClick={handlePagar}
+              >
+                💳 Comprar ahora
+              </button>
+            </div>
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 };
 

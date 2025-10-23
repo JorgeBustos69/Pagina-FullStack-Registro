@@ -81,4 +81,33 @@ body {
   .subtitulo {
     font-size: 1rem;
   }
+  .text-brown {
+  color: #8b4513;
+}
+
+body {
+  background-color: #fff3e0;
+}
+
+.card img {
+  height: 250px;
+  object-fit: cover;
+}
+body {
+  background-color: #fff8e1;
+}
+
+.text-brown {
+  color: #8b4513;
+}
+
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
 }

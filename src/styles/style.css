@@ -79,3 +79,20 @@ input.error {
   color: red;
   margin-top: 1rem;
 }
+.text-brown {
+  color: #8b4513;
+}
+
+body {
+  background-color: #fff8e1;
+}
+
+.table th {
+  background-color: #ffe0b2 !important;
+}
+
+.table td img {
+  object-fit: cover;
+  height: 70px;
+}
+

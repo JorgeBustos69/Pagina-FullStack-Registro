@@ -4,6 +4,7 @@ import Home from './Components/Home';
 import Registro from './Components/Registro';
 import Login from './Components/Login';
 import Catalogo from './Components/Catalogo';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 import Carrito from './Components/Carrito';
 import ProductoDetalle from './Components/ProductoDetalle';

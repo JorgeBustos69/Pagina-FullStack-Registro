@@ -114,3 +114,19 @@ h3{
   }
   .imagen img{ height: 360px; }
 }
+.text-brown {
+  color: #8b4513;
+}
+
+.card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+body {
+  background-color: #fff8e1;
+}

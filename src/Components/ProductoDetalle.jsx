@@ -1,7 +1,7 @@
-// src/Components/ProductoDetalle.jsx
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Navegacion from "./Navegacion";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/styleProducto.css";
 
 const productos = [
@@ -68,9 +68,11 @@ const ProductoDetalle = () => {
     return (
       <>
         <Navegacion />
-        <div style={{ textAlign: "center", padding: "3rem" }}>
-          <h2>Producto no encontrado 😕</h2>
-          <Link to="/catalogo">Volver al catálogo</Link>
+        <div className="container text-center py-5">
+          <h2 className="text-danger mb-4">Producto no encontrado 😕</h2>
+          <Link className="btn btn-outline-primary" to="/catalogo">
+            ← Volver al catálogo
+          </Link>
         </div>
       </>
     );
@@ -79,23 +81,32 @@ const ProductoDetalle = () => {
   return (
     <>
       <Navegacion />
-      <main className="producto-detalle">
-        <div className="imagen">
-          <img src={producto.imagenUrl} alt={producto.nombre} />
-        </div>
+      <main className="container my-5">
+        <div className="row align-items-center">
+          <div className="col-md-6 text-center mb-4 mb-md-0">
+            <img
+              src={producto.imagenUrl}
+              alt={producto.nombre}
+              className="img-fluid rounded shadow-sm"
+              style={{ maxHeight: "400px", objectFit: "cover" }}
+            />
+          </div>
+          <div className="col-md-6">
+            <h1 className="fw-bold">{producto.nombre}</h1>
+            <p className="text-muted fs-5">
+              ${producto.precio.toLocaleString("es-CL")}
+            </p>
+            <p className="mb-4">{producto.descripcion}</p>
 
-        <div className="info">
-          <h1>{producto.nombre}</h1>
-          <p className="precio">${producto.precio.toLocaleString("es-CL")}</p>
-          <p className="descripcion">{producto.descripcion}</p>
-
-          <button className="btn" onClick={handleAddToCart}>
-            Añadir al carrito
-          </button>
-
-          <Link className="volver" to="/catalogo">
-            ← Volver al catálogo
-          </Link>
+            <div className="d-flex flex-column flex-sm-row gap-3">
+              <button className="btn btn-success btn-lg" onClick={handleAddToCart}>
+                🛒 Añadir al carrito
+              </button>
+              <Link className="btn btn-outline-secondary btn-lg" to="/catalogo">
+                ← Volver al catálogo
+              </Link>
+            </div>
+          </div>
         </div>
       </main>
     </>

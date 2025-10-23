@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Navegacion from './Navegacion';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/style.css';
 
 const Registro = () => {
@@ -90,120 +91,56 @@ const Registro = () => {
     <>
       <Navegacion />
 
-      <div className="registro-page">
-        <form onSubmit={handleSubmit} onReset={handleReset}>
-          <h1>Crear cuenta nueva 🍰</h1>
+      <div className="container py-5">
+        <div className="row justify-content-center">
+          <div className="col-md-8 col-lg-6">
+            <div className="card shadow-lg border-0 rounded-4">
+              <div className="card-body p-4">
+                <h2 className="text-center mb-4">Crear cuenta nueva 🍰</h2>
 
-          <div className="row">
-            <label>Nombres:</label>
-            <input
-              type="text"
-              name="nombres"
-              placeholder="Diego Rafael"
-              value={formData.nombres}
-              onChange={handleChange}
-              className={erroresCampos.nombres ? 'error' : ''}
-              required
-            />
+                {errorMsg && (
+                  <div className="alert alert-danger text-center" role="alert">
+                    {errorMsg}
+                  </div>
+                )}
+
+                <form onSubmit={handleSubmit} onReset={handleReset}>
+                  {[
+                    { label: "Nombres", name: "nombres", type: "text", placeholder: "Diego Rafael" },
+                    { label: "Apellidos", name: "apellidos", type: "text", placeholder: "Flores Valdenegro" },
+                    { label: "Dirección", name: "direccion", type: "text", placeholder: "Padre Hurtado" },
+                    { label: "Correo", name: "correo", type: "email", placeholder: "DiegoF@gmail.com" },
+                    { label: "Contraseña", name: "contraseña", type: "password", placeholder: "contraseñacienporcientosegura" },
+                    { label: "Confirmar contraseña", name: "confirmar", type: "password", placeholder: "Repite tu contraseña" },
+                    { label: "Edad", name: "edad", type: "number", placeholder: "28" },
+                    { label: "Código de registro (solo si tiene alguno)", name: "codigo", type: "text", placeholder: "CODIGODSCTO123" }
+                  ].map((campo, i) => (
+                    <div className="mb-3" key={i}>
+                      <label className="form-label fw-semibold">{campo.label}:</label>
+                      <input
+                        type={campo.type}
+                        name={campo.name}
+                        placeholder={campo.placeholder}
+                        value={formData[campo.name]}
+                        onChange={handleChange}
+                        className={`form-control ${erroresCampos[campo.name] ? 'is-invalid' : ''}`}
+                        required={campo.name !== 'codigo'}
+                      />
+                      {erroresCampos[campo.name] && (
+                        <div className="invalid-feedback">{erroresCampos[campo.name]}</div>
+                      )}
+                    </div>
+                  ))}
+
+                  <div className="d-flex justify-content-between mt-4">
+                    <button type="reset" className="btn btn-outline-secondary px-4">Limpiar</button>
+                    <button type="submit" className="btn btn-primary px-4">Enviar</button>
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
-
-          <div className="row">
-            <label>Apellidos:</label>
-            <input
-              type="text"
-              name="apellidos"
-              placeholder="Flores Valdenegro"
-              value={formData.apellidos}
-              onChange={handleChange}
-              className={erroresCampos.apellidos ? 'error' : ''}
-              required
-            />
-          </div>
-
-          <div className="row">
-            <label>Dirección:</label>
-            <input
-              type="text"
-              name="direccion"
-              placeholder="Padre Hurtado"
-              value={formData.direccion}
-              onChange={handleChange}
-              className={erroresCampos.direccion ? 'error' : ''}
-              required
-            />
-          </div>
-
-          <div className="row">
-            <label>Correo:</label>
-            <input
-              type="email"
-              name="correo"
-              placeholder="DiegoF@gmail.com"
-              value={formData.correo}
-              onChange={handleChange}
-              className={erroresCampos.correo ? 'error' : ''}
-              required
-            />
-          </div>
-
-          <div className="row">
-            <label>Contraseña:</label>
-            <input
-              type="password"
-              name="contraseña"
-              placeholder="contraseñacienporcientosegura"
-              value={formData.contraseña}
-              onChange={handleChange}
-              className={erroresCampos.contraseña ? 'error' : ''}
-              required
-            />
-          </div>
-
-          <div className="row">
-            <label>Confirmar contraseña:</label>
-            <input
-              type="password"
-              name="confirmar"
-              placeholder="contraseñacienporcientosegura"
-              value={formData.confirmar}
-              onChange={handleChange}
-              className={erroresCampos.confirmar ? 'error' : ''}
-              required
-            />
-          </div>
-
-          <div className="row">
-            <label>Edad:</label>
-            <input
-              type="number"
-              name="edad"
-              placeholder="28"
-              value={formData.edad}
-              onChange={handleChange}
-              className={erroresCampos.edad ? 'error' : ''}
-              required
-            />
-          </div>
-
-          <div className="row">
-            <label>Código de registro (solo si tiene alguno):</label>
-            <input
-              type="text"
-              name="codigo"
-              placeholder="CODIGODSCTO123"
-              value={formData.codigo}
-              onChange={handleChange}
-              className={erroresCampos.codigo ? 'error' : ''}
-            />
-          </div>
-
-          <div className="botones">
-            <button type="reset">Limpiar</button>
-            <button type="submit">Enviar</button>
-          </div>
-
-          {errorMsg && <p className="error-msg">{errorMsg}</p>}
-        </form>
+        </div>
       </div>
     </>
   );
