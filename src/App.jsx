@@ -16,7 +16,6 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/catalogo" element={<Catalogo />} />
         <Route path="/carrito" element={<Carrito />} />
-        <Route path="/producto/:id" element={<DetalleProducto />} />
         <Route path="/checkout" element={<div>Checkout (Paso de Pago)</div>} />
         <Route path="/pago-exitoso" element={<div>Pago Correcto</div>} />
         <Route path="/pago-error" element={<div>Pago con Error</div>} />

@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+*{
+    background-color:#FFF5E1;
+    margin:0;
+    font-family: "Lato", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    border-radius: 8px;
+    color: #8B4513;
+}
+
+a{
+    text-decoration: none;
+    color: #8B4513;
+    font-weight: 500;
+    background-color: #df9a69;
+    
+}
+
+a:hover{
+    color: #FFC0CB;
+}
+
+#primera{
+    display:flex ;
+   background-color: #df9a69;
+    width: 100%;
+    justify-content: center;
+    height: 7vh;
+    column-gap: 5rem;
+    align-items: center;
+}
+
+#segunda{
+    display: flex;
+    column-gap: 20rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width:100%;
+    height: 20vh;
+
+}
+
+h1{
+    display: flex;
+    justify-content: center;
+    
+    font-family: "Pacifico", cursive;
+    font-weight: 400;
+    font-style: normal;
+    color: #5D4037;
+}
+#tercera{
+    display: flex;
+    width: 100%;
+    height: 60vh;
+   
+    justify-content: space-around;
+    text-align: center;
+    align-items: flex-end;
+    column-gap: 10rem;
+}
+#cuarta{
+    display: flex;
+    width: 100%;
+    height: 60vh;
+    
+    justify-content: space-around;
+    text-align: center;
+    align-items: flex-end;
+    column-gap: 10rem;
+
+}
+#quinta{
+    display: flex;
+    width: 100%;
+    height: 20vh;
+
+}

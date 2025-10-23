@@ -1,0 +1,83 @@
+body {
+  background: #FFF5E1;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.registro-page form {
+  width: 60vw;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 2rem;
+  row-gap: 1rem;
+  background-color: #FFF5E1;
+  padding: 3rem;
+  border-radius: 18px;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+  width: calc(50% - 1rem);
+}
+
+h1 {
+  width: 100%;
+  font-size: 2.5rem;
+  color: #8B4513;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+input {
+  background-color: #FFC0CB;
+  border: 1px solid #8B4513;
+  padding: 0.5rem;
+  border-radius: 6px;
+  color: #333;
+}
+
+input:focus {
+  background-color: #fff;
+  border-color: #8B4513;
+  outline: none;
+}
+
+input.error {
+  border: 2px solid red !important;
+  background-color: #ffeaea !important;
+}
+
+.botones {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.botones button {
+  width: 10rem;
+  height: 3rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #8B4513;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.botones button:hover {
+  background-color: #b36c39;
+}
+
+.error-msg {
+  width: 100%;
+  text-align: center;
+  color: red;
+  margin-top: 1rem;
+}
