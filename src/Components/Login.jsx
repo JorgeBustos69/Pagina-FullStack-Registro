@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Navegacion from './Navegacion';
-import '../styles/styleLogin.css'; // 👈 nombre correcto: carpeta "styles"
+import '../styles/styleLogin.css';
 
 const Login = () => {
   const [formData, setFormData] = useState({
