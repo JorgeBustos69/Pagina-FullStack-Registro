@@ -1,42 +1,62 @@
-
-
-*{
+* {
   font-family: "Lato", sans-serif;
   font-weight: 500;
   font-style: normal;
 }
 
 body {
-  font-family: "Lato", sans-serif;
-  background-color: #FFF5E1;
-  color: #5a2e0e;
   margin: 0;
+  background-color: #FFF5E1; 
+  color: #5a2e0e;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-#primera{
-  display:flex;
-  background-color:#df9a69;
-  width:100%;
-  justify-content:center;
+#primera {
+  width: 100vw; 
+  margin: 0; 
+  padding: 0;
+  background-color: #df9a69;
+  display: flex;
+  justify-content: center;
   gap: 3rem;
-  align-items:center;
+  align-items: center;
   height: 56px;
+  position: relative; 
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
+  box-sizing: border-box;
 }
-#primera a{
-  text-decoration:none;
-  color:#8B4513;
+#primera a {
+  text-decoration: none;
+  color: #8b4513;
   background: transparent;
+  font-weight: 600;
 }
-#primera a:hover{ color:#FFC0CB; }
+
+#primera a:hover {
+  color: #ffc0cb;
+}
+.main-carrito {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
 
 .carrito-container {
+  width: 90%;
   max-width: 900px;
-  margin: 40px auto;
-  padding: 20px;
   background: #fffaf3;
   border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0,0,0,.08);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  padding: 20px;
 }
+
 
 .carrito-item {
   display: flex;
@@ -60,7 +80,7 @@ body {
 
 .carrito-precio {
   font-weight: bold;
-  color: #8B4513;
+  color: #8b4513;
 }
 
 .acciones {
@@ -79,13 +99,36 @@ body {
 }
 
 .pagar {
-  background: #8B4513;
+  background: #8b4513;
   color: white;
 }
-.pagar:hover { background: #b36c39; }
+
+.pagar:hover {
+  background: #b36c39;
+}
 
 .vaciar {
   background: #e57373;
   color: white;
 }
-.vaciar:hover { background: #c62828; }
+
+@media (max-width: 768px) {
+  .carrito-container {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .carrito-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .carrito-item img {
+    width: 100%;
+    height: auto;
+  }
+
+  .acciones {
+    justify-content: center;
+  }
+}

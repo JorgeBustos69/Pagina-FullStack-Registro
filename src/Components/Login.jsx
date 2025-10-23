@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Navegacion from './Navegacion';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles/styleLogin.css';
+
 
 const Login = () => {
   const [formData, setFormData] = useState({

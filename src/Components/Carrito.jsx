@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Navegacion from "./Navegacion";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/styleCarrito.css";
-import "../styles/style.css";
 
 const Carrito = () => {
   const [carrito, setCarrito] = useState(() => {

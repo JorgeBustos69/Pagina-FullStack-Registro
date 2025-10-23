@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Navegacion from './Navegacion';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles/style.css';
+
 
 const Registro = () => {
   const [formData, setFormData] = useState({

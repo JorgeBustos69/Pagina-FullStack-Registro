@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Navegacion from "./Navegacion";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../styles/styleCatalogo.css";
+import "bootstrap/dist/css/bootstrap.min.css"
+
 
 const Catalogo = () => {
   const productos = [
