@@ -1,3 +1,4 @@
+// src/Components/Carrito.jsx
 import React, { useState, useEffect } from 'react';
 import Navegacion from './Navegacion'; 
 import '../styles/styleCarrito.css';
@@ -5,44 +6,57 @@ import '../styles/style.css';
 
 const Carrito = () => {
   const [carrito, setCarrito] = useState(() => {
-    try {
-      const storedCarrito = localStorage.getItem('carrito');
-      return storedCarrito ? JSON.parse(storedCarrito) : [];
-    } catch (error) {
-      return [];
-    }
+    const stored = localStorage.getItem('carrito');
+    return stored ? JSON.parse(stored) : [];
   });
 
   useEffect(() => {
     localStorage.setItem('carrito', JSON.stringify(carrito));
-  }, [carrito]); 
+  }, [carrito]);
 
-  const calcularTotal = () => {
-    return carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
-  };
-  
-  const handleEliminarProducto = (index) => {
-    const nuevoCarrito = carrito.filter((_, i) => i !== index);
+  const calcularTotal = () =>
+    carrito.reduce((total, item) => total + item.precio * item.cantidad, 0);
+
+  const handleCantidadChange = (index, nuevaCantidad) => {
+    if (nuevaCantidad < 1) nuevaCantidad = 1;
+    const nuevoCarrito = [...carrito];
+    nuevoCarrito[index].cantidad = parseInt(nuevaCantidad);
     setCarrito(nuevoCarrito);
   };
-  
-  const handleVaciarCarrito = () => {
-    if (window.confirm("¿Estás seguro de que quieres vaciar el carrito?")) {
+
+  const handleEliminar = (index) => {
+    const nuevo = carrito.filter((_, i) => i !== index);
+    setCarrito(nuevo);
+  };
+
+  const handleVaciar = () => {
+    if (window.confirm("¿Seguro que quieres vaciar el carrito?")) {
       setCarrito([]);
     }
   };
 
-  const handlePagar = () => {
-    alert(`Total a pagar: $${calcularTotal()}. Redirigiendo a Checkout.`);
-  };
-  
+ const handlePagar = () => {
+  const total = calcularTotal();
+
+  if (carrito.length === 0) {
+    alert("Tu carrito está vacío.");
+    return;
+  }
+
+  alert(`💰 Pago realizado con éxito.\nTotal: $${total.toLocaleString("es-CL")}`);
+
+  setCarrito([]);
+  localStorage.removeItem("carrito");
+
+};
+
+
   return (
     <div>
       <Navegacion />
-      
       <div className="carrito-container">
         <h1>🛒 Carrito de Compras</h1>
-        
+
         {carrito.length === 0 ? (
           <p>Tu carrito está vacío.</p>
         ) : (
@@ -58,25 +72,25 @@ const Carrito = () => {
               </tr>
             </thead>
             <tbody>
-              {carrito.map((producto, index) => (
-                <tr key={index} className="carrito-item">
-                  <td></td>
-                  <td>{producto.nombre}</td>
-                  <td>${producto.precio}</td>
+              {carrito.map((item, index) => (
+                <tr key={index}>
                   <td>
-                    <input 
-                      type="number" 
-                      min="1" 
-                      value={producto.cantidad} 
-                      onChange={(e) => { /* Lógica de cambio de cantidad */ }}
+                    <img src={item.imagen} alt={item.nombre} width="70" style={{ borderRadius: "8px" }} />
+                  </td>
+                  <td>{item.nombre}</td>
+                  <td>${item.precio.toLocaleString("es-CL")}</td>
+                  <td>
+                    <input
+                      type="number"
+                      min="1"
+                      value={item.cantidad}
+                      onChange={(e) => handleCantidadChange(index, e.target.value)}
+                      style={{ width: "60px", textAlign: "center" }}
                     />
                   </td>
-                  <td>${producto.precio * producto.cantidad}</td>
+                  <td>${(item.precio * item.cantidad).toLocaleString("es-CL")}</td>
                   <td>
-                    <button 
-                      onClick={() => handleEliminarProducto(index)}
-                      className="eliminar-btn"
-                    >
+                    <button className="eliminar-btn" onClick={() => handleEliminar(index)}>
                       Eliminar
                     </button>
                   </td>
@@ -86,23 +100,13 @@ const Carrito = () => {
           </table>
         )}
 
-        <div className="acciones"> 
-          <h2>Total: ${calcularTotal()}</h2>
-          <button 
-            className="vaciar" 
-            onClick={handleVaciarCarrito}
-            disabled={carrito.length === 0}
-          >
-            Vaciar Carrito
-          </button>
-          <button 
-            className="pagar" 
-            onClick={handlePagar}
-            disabled={carrito.length === 0}
-          >
-            Comprar ahora
-          </button>
-        </div>
+        {carrito.length > 0 && (
+          <div className="acciones">
+            <h2>Total: ${calcularTotal().toLocaleString("es-CL")}</h2>
+            <button className="vaciar" onClick={handleVaciar}>Vaciar Carrito</button>
+            <button className="pagar" onClick={handlePagar}>Comprar ahora</button>
+          </div>
+        )}
       </div>
     </div>
   );
