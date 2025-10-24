@@ -1,38 +1,16 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navegacion from "./Navegacion";
-import "bootstrap/dist/css/bootstrap.min.css"
-
+import { getProductos } from "../data/productos";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const Catalogo = () => {
-  const productos = [
-    {
-      id: 1,
-      nombre: "Torta de vainilla con frutos rojos y almendra",
-      descripcion:
-        "Bizcocho húmedo con crema de vainilla, frutos rojos y almendras tostadas en los bordes.",
-      precio: 10000,
-      imagenUrl:
-        "https://rhenania.cl/wp-content/uploads/2020/12/MERENGUE-MIXTA.jpg",
-    },
-    {
-      id: 2,
-      nombre: "Torta de chocolate con manjar",
-      descripcion: "Torta de chocolate rellena con manjar artesanal y cobertura cremosa.",
-      precio: 12000,
-      imagenUrl:
-        "https://amoradulce.com/wp-content/uploads/2019/12/Torta-chocolate-1_04_13_2024-scaled.jpg",
-    },
-    {
-      id: 3,
-      nombre: "Torta MIXTA-CHOCOLATE",
-      descripcion:
-        "Combinación de crema de vainilla y frambuesas con cubierta de chocolate y chispas.",
-      precio: 15000,
-      imagenUrl:
-        "https://rhenania.cl/wp-content/uploads/2020/12/MIXTA-CHOCOLATE.jpg",
-    },
-  ];
+  const [productos, setProductos] = useState([]);
+
+  useEffect(() => {
+    const lista = getProductos(); 
+    setProductos(lista);
+  }, []);
 
   return (
     <div>
