@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Navegacion from './Navegacion';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 const Login = () => {
   const [formData, setFormData] = useState({
     correo: '',
@@ -22,6 +21,14 @@ const Login = () => {
         setErrorMsg('');
       }
     }
+
+    if (id === 'contraseña') {
+      if (value.length > 0 && value.length < 8) {
+        setErrorMsg('La contraseña debe tener al menos 8 caracteres.');
+      } else {
+        setErrorMsg('');
+      }
+    }
   };
 
   const handleSubmit = (e) => {
@@ -29,7 +36,7 @@ const Login = () => {
     if (errorMsg || formData.correo === '' || formData.contraseña === '') {
       alert('Por favor, completa los campos correctamente.');
     } else {
-      console.log('Intento de login con:', formData);
+      console.log(formData);
       alert('✅ Inicio de sesión exitoso (simulado).');
     }
   };
@@ -42,7 +49,7 @@ const Login = () => {
         <div className="card p-4 shadow-lg border-0 rounded-4" style={{ maxWidth: '420px', width: '100%' }}>
           <h1 className="text-center mb-4 text-brown fw-bold">Iniciar sesión</h1>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} role="form">
             <div className="mb-3 text-start">
               <label htmlFor="correo" className="form-label fw-semibold">Correo</label>
               <input
@@ -51,10 +58,10 @@ const Login = () => {
                 value={formData.correo}
                 onChange={handleChange}
                 required
-                className={`form-control ${errorMsg ? 'is-invalid' : ''}`}
+                className={`form-control ${errorMsg && errorMsg.includes('correo') ? 'is-invalid' : ''}`}
                 placeholder="ejemplo@correo.com"
               />
-              {errorMsg && <div className="invalid-feedback">{errorMsg}</div>}
+              {errorMsg.includes('correo') && <div className="invalid-feedback">{errorMsg}</div>}
             </div>
 
             <div className="mb-3 text-start">
@@ -65,12 +72,17 @@ const Login = () => {
                 value={formData.contraseña}
                 onChange={handleChange}
                 required
-                className="form-control"
+                className={`form-control ${errorMsg.includes('contraseña') ? 'is-invalid' : ''}`}
                 placeholder="••••••••"
               />
+              {errorMsg.includes('contraseña') && <div className="invalid-feedback">{errorMsg}</div>}
             </div>
 
-            <button type="submit" className="btn btn-brown w-100 mt-3 py-2">
+            <button
+              type="submit"
+              className="btn btn-brown w-100 mt-3 py-2"
+              disabled={!formData.correo || !formData.contraseña}
+            >
               Enviar
             </button>
           </form>
