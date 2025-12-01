@@ -5,6 +5,8 @@ import Registro from './Components/Registro';
 import Login from './Components/Login';
 import Catalogo from './Components/Catalogo';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import AdminProductos from "./Components/AdminProductos";
+
 
 import Carrito from './Components/Carrito';
 import ProductoDetalle from './Components/ProductoDetalle';
@@ -22,6 +24,8 @@ function App() {
         <Route path="/checkout" element={<div>Checkout (Paso de Pago)</div>} />
         <Route path="/pago-exitoso" element={<div>Pago Correcto</div>} />
         <Route path="/pago-error" element={<div>Pago con Error</div>} />
+        <Route path="/admin" element={<AdminProductos />} />
+
       </Routes>
     </Router>
   );

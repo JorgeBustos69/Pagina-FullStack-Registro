@@ -32,7 +32,6 @@ const Home = () => {
           </p>
 
           <div className="row justify-content-center g-4">
-            {/* Card 1 */}
             <div className="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
               <div className="card border-0 shadow-lg rounded-4" style={{ width: "90%" }}>
                 <img
@@ -50,8 +49,6 @@ const Home = () => {
                 </div>
               </div>
             </div>
-
-            {/* Card 2 */}
             <div className="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
               <div className="card border-0 shadow-lg rounded-4" style={{ width: "90%" }}>
                 <img
@@ -69,7 +66,6 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Card 3 */}
             <div className="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
               <div className="card border-0 shadow-lg rounded-4" style={{ width: "90%" }}>
                 <img
