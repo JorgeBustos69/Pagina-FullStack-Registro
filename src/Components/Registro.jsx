@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Navegacion from './Navegacion';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Registro = () => {
@@ -53,7 +52,6 @@ const Registro = () => {
     setErrorMsg(primerError || '');
   };
 
-  // --- AQUÍ ESTÁ LA MAGIA DE LA CONEXIÓN ---
   const handleSubmit = async (e) => {
     e.preventDefault();
     let erroresEncontrados = {};
@@ -70,33 +68,26 @@ const Registro = () => {
     setErroresCampos(erroresEncontrados);
 
     if (formularioValido) {
-      
-      // 1. Preparar datos para IntelliJ (El backend espera: nombre, email, password, rol)
       const usuarioParaBackend = {
-        nombre: `${formData.nombres} ${formData.apellidos}`, // Unimos nombre y apellido
+        nombre: `${formData.nombres} ${formData.apellidos}`,
         email: formData.correo,
         password: formData.contraseña,
-        rol: "CLIENTE" // Valor obligatorio por defecto para la rúbrica
+        rol: "CLIENTE"
       };
 
       try {
         console.log("Enviando datos al backend...", usuarioParaBackend);
 
-        // 2. Enviar petición POST al puerto 9090
         const respuesta = await fetch("http://localhost:9090/api/usuarios/registro", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(usuarioParaBackend),
         });
 
-        // 3. Verificar respuesta
         if (respuesta.ok) {
           const datosRespuesta = await respuesta.json();
           alert(`✅ Cuenta creada con éxito! ID: ${datosRespuesta.id}`);
-          console.log("Respuesta del servidor:", datosRespuesta);
-          handleReset(); // Limpia el formulario
+          handleReset();
         } else {
           alert("❌ Error al registrar. Es posible que el correo ya esté en uso.");
         }
@@ -123,8 +114,6 @@ const Registro = () => {
 
   return (
     <>
-      <Navegacion />
-
       <div className="container py-5">
         <div className="row justify-content-center">
           <div className="col-md-8 col-lg-6">
@@ -171,6 +160,7 @@ const Registro = () => {
                     <button type="submit" className="btn btn-primary px-4">Enviar</button>
                   </div>
                 </form>
+
               </div>
             </div>
           </div>

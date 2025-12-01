@@ -1,128 +1,138 @@
-import React, { useState, useEffect } from "react";
-import { getProductos, agregarProducto, eliminarProducto } from "../data/productos";
+import React, { useEffect, useState } from "react";
 import Navegacion from "./Navegacion";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 const AdminProductos = () => {
   const [productos, setProductos] = useState([]);
-  const [nuevo, setNuevo] = useState({
+  const [nuevoProducto, setNuevoProducto] = useState({
     nombre: "",
-    precio: "",
     descripcion: "",
-    imagenUrl: "",
+    precio: "",
+    imagenUrl: ""
   });
 
-useEffect(() => {
-  setProductos(getProductos());
-}, []);
-
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNuevo({ ...nuevo, [name]: value });
+  // ============================
+  // Cargar productos del backend
+  // ============================
+  const cargarProductos = async () => {
+    const res = await fetch("http://localhost:9090/api/productos");
+    const data = await res.json();
+    setProductos(data);
   };
 
-  const handleAdd = (e) => {
+  useEffect(() => {
+    cargarProductos();
+  }, []);
+
+  // ==================================
+  // Crear producto
+  // ==================================
+  const crearProducto = async (e) => {
     e.preventDefault();
-    const nuevoProducto = agregarProducto({
-      ...nuevo,
-      precio: parseInt(nuevo.precio),
+
+    const res = await fetch("http://localhost:9090/api/productos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(nuevoProducto)
     });
-    setProductos([...productos, nuevoProducto]);
-    setNuevo({ nombre: "", precio: "", descripcion: "", imagenUrl: "" });
+
+    if (res.ok) {
+      alert("Producto creado correctamente");
+      setNuevoProducto({ nombre: "", descripcion: "", precio: "", imagenUrl: "" });
+      cargarProductos();
+    }
   };
 
-  const handleDelete = (id) => {
-    eliminarProducto(id);
-    setProductos(productos.filter((p) => p.id !== id));
+  // ==================================
+  // Eliminar producto
+  // ==================================
+  const eliminarProducto = async (id) => {
+    if (!window.confirm("¿Eliminar producto?")) return;
+
+    await fetch(`http://localhost:9090/api/productos/${id}`, {
+      method: "DELETE"
+    });
+
+    cargarProductos();
   };
 
   return (
-    <div className="container py-5">
+    <>
       <Navegacion />
-      <h1 className="text-center mb-4 fw-bold text-brown">
-        🧁 Panel de Administración
-      </h1>
 
-      <form onSubmit={handleAdd} className="mb-4 p-3 border rounded-3 bg-light shadow-sm">
-        <div className="row g-2">
-          <div className="col-md-3">
+      <div className="container py-5">
+        <h2 className="text-center mb-4">Administrar Productos</h2>
+
+        {/* FORMULARIO CREAR */}
+        <div className="card p-4 shadow-sm mb-4">
+          <h4 className="mb-3">Crear nuevo producto</h4>
+
+          <form onSubmit={crearProducto}>
             <input
-              name="nombre"
-              value={nuevo.nombre}
-              onChange={handleChange}
-              className="form-control"
+              className="form-control mb-2"
               placeholder="Nombre"
+              value={nuevoProducto.nombre}
+              onChange={(e) => setNuevoProducto({ ...nuevoProducto, nombre: e.target.value })}
               required
             />
-          </div>
-          <div className="col-md-2">
-            <input
-              name="precio"
-              type="number"
-              value={nuevo.precio}
-              onChange={handleChange}
-              className="form-control"
-              placeholder="Precio"
-              required
-            />
-          </div>
-          <div className="col-md-3">
-            <input
-              name="descripcion"
-              value={nuevo.descripcion}
-              onChange={handleChange}
-              className="form-control"
-              placeholder="Descripción"
-              required
-            />
-          </div>
-          <div className="col-md-3">
-            <input
-              name="imagenUrl"
-              value={nuevo.imagenUrl}
-              onChange={handleChange}
-              className="form-control"
-              placeholder="URL Imagen"
-              required
-            />
-          </div>
-          <div className="col-md-1 d-flex align-items-center">
-            <button type="submit" className="btn btn-success w-100">
-              +
-            </button>
-          </div>
-        </div>
-      </form>
 
-      <table className="table table-striped table-bordered shadow-sm">
-        <thead className="table-warning">
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Precio</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {productos.map((p) => (
-            <tr key={p.id}>
-              <td>{p.id}</td>
-              <td>{p.nombre}</td>
-              <td>${p.precio.toLocaleString("es-CL")}</td>
-              <td>
-                <button
-                  onClick={() => handleDelete(p.id)}
-                  className="btn btn-danger btn-sm"
-                >
-                  Eliminar
-                </button>
-              </td>
-            </tr>
+            <textarea
+              className="form-control mb-2"
+              placeholder="Descripción"
+              value={nuevoProducto.descripcion}
+              onChange={(e) => setNuevoProducto({ ...nuevoProducto, descripcion: e.target.value })}
+              required
+            />
+
+            <input
+              className="form-control mb-2"
+              type="number"
+              placeholder="Precio"
+              value={nuevoProducto.precio}
+              onChange={(e) => setNuevoProducto({ ...nuevoProducto, precio: e.target.value })}
+              required
+            />
+
+            <input
+              className="form-control mb-2"
+              placeholder="URL de imagen"
+              value={nuevoProducto.imagenUrl}
+              onChange={(e) => setNuevoProducto({ ...nuevoProducto, imagenUrl: e.target.value })}
+              required
+            />
+
+            <button className="btn btn-success w-100">Crear Producto</button>
+          </form>
+        </div>
+
+        {/* LISTA DE PRODUCTOS */}
+        <div className="row">
+          {productos.map((producto) => (
+            <div key={producto.id} className="col-md-4 mb-4">
+              <div className="card shadow-sm">
+                <img
+                  src={producto.imagenUrl}
+                  className="card-img-top"
+                  alt={producto.nombre}
+                  style={{ height: "200px", objectFit: "cover" }}
+                />
+                <div className="card-body">
+                  <h5 className="fw-bold">{producto.nombre}</h5>
+                  <p className="text-muted">{producto.descripcion}</p>
+                  <p className="fw-semibold text-success">${producto.precio}</p>
+
+                  <button
+                    className="btn btn-danger w-100"
+                    onClick={() => eliminarProducto(producto.id)}
+                  >
+                    Eliminar Producto
+                  </button>
+                </div>
+              </div>
+            </div>
           ))}
-        </tbody>
-      </table>
-    </div>
+        </div>
+      </div>
+    </>
   );
 };
 

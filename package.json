@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.8",
-    "react-router-dom": "^7.9.4",
+    "react-router-dom": "^7.9.6",
     "react-router-hash-link": "^2.4.3"
   },
   "devDependencies": {

@@ -22,7 +22,7 @@ useEffect(() => {
 
   cargarUsuario();
 
-  // 🔄 OJO: esto escucha cuando cambian los valores del localStorage
+
   window.addEventListener("storage", cargarUsuario);
 
   return () => {

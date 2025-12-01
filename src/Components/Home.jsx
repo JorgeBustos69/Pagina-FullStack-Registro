@@ -1,13 +1,10 @@
 import React from "react";
-import Navegacion from "./Navegacion";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/styleinicio.css";
 
 const Home = () => {
   return (
     <>
-      <Navegacion />
-
       <main
         className="py-5"
         style={{ backgroundColor: "#fdf1de", minHeight: "100vh" }}
@@ -49,6 +46,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
+
             <div className="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
               <div className="card border-0 shadow-lg rounded-4" style={{ width: "90%" }}>
                 <img
@@ -82,6 +80,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </main>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Navegacion from "./Navegacion";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/styleCarrito.css";
 
@@ -50,8 +49,6 @@ const Carrito = () => {
 
   return (
     <>
-      <Navegacion />
-
       <div className="container py-5">
         <h1 className="text-center mb-4 text-brown">
           🛒 Carrito de Compras
@@ -85,10 +82,13 @@ const Carrito = () => {
                         className="rounded shadow-sm"
                       />
                     </td>
+
                     <td>{item.nombre}</td>
+
                     <td className="text-center">
                       ${item.precio.toLocaleString("es-CL")}
                     </td>
+
                     <td className="text-center">
                       <input
                         type="number"
@@ -101,9 +101,11 @@ const Carrito = () => {
                         style={{ width: "80px" }}
                       />
                     </td>
+
                     <td className="text-center">
                       ${(item.precio * item.cantidad).toLocaleString("es-CL")}
                     </td>
+
                     <td className="text-center">
                       <button
                         className="btn btn-sm btn-danger"
@@ -133,10 +135,7 @@ const Carrito = () => {
                 🗑️ Vaciar Carrito
               </button>
 
-              <button
-                className="btn btn-success"
-                onClick={handlePagar}
-              >
+              <button className="btn btn-success" onClick={handlePagar}>
                 💳 Comprar ahora
               </button>
             </div>
