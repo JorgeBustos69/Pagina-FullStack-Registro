@@ -14,6 +14,7 @@ const Login = () => {
     const { id, value } = e.target;
     setFormData((prev) => ({ ...prev, [id]: value }));
 
+    // Validaciones visuales (se mantienen igual que en tu diseño)
     if (id === 'correo') {
       if (value.length < 3 || !value.includes('@')) {
         setErrorMsg('El correo debe tener al menos 3 letras y contener un "@".');
@@ -31,13 +32,60 @@ const Login = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  // --- LÓGICA DE CONEXIÓN REAL ---
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // 1. Validar antes de enviar
     if (errorMsg || formData.correo === '' || formData.contraseña === '') {
       alert('Por favor, completa los campos correctamente.');
-    } else {
-      console.log(formData);
-      alert('✅ Inicio de sesión exitoso (simulado).');
+      return;
+    }
+
+    try {
+      // 2. Preparar los datos (Mapeamos tus nombres a los que espera el Backend)
+      // Tu form usa 'correo' y 'contraseña', el backend espera 'email' y 'password'
+      const credenciales = {
+        email: formData.correo,
+        password: formData.contraseña
+      };
+
+      // 3. Enviar al Backend (Puerto 9090)
+      const respuesta = await fetch("http://localhost:9090/api/usuarios/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(credenciales),
+      });
+
+      const datos = await respuesta.json();
+
+      // 4. Verificar respuesta
+      if (datos.token) {
+        // ¡ÉXITO! Guardamos el token real
+        localStorage.setItem('token', datos.token);
+localStorage.setItem('rol', datos.rol);
+localStorage.setItem('email', credenciales.email);
+
+// 🟢 AGREGA ESTO
+if (datos.nombre) {
+  localStorage.setItem('nombre', datos.nombre);
+}
+
+
+        alert(`✅ ¡Bienvenido de nuevo! Rol: ${datos.rol}`);
+        
+        // Redirigir al inicio
+        window.location.href = "/";
+      } else {
+        // Error de credenciales
+        alert("❌ " + (datos.mensaje || "Correo o contraseña incorrectos"));
+      }
+
+    } catch (error) {
+      console.error("Error:", error);
+      alert("⚠️ Error de conexión. Revisa que IntelliJ esté corriendo.");
     }
   };
 
