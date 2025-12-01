@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Navegacion from './Navegacion';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 const Registro = () => {
   const [formData, setFormData] = useState({
     nombres: '', apellidos: '', direccion: '', correo: '',
@@ -54,7 +53,8 @@ const Registro = () => {
     setErrorMsg(primerError || '');
   };
 
-  const handleSubmit = (e) => {
+  // --- AQUÍ ESTÁ LA MAGIA DE LA CONEXIÓN ---
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let erroresEncontrados = {};
     let formularioValido = true;
@@ -70,8 +70,42 @@ const Registro = () => {
     setErroresCampos(erroresEncontrados);
 
     if (formularioValido) {
-      alert("✅ Cuenta creada con éxito!");
-      console.log("Datos enviados:", formData);
+      
+      // 1. Preparar datos para IntelliJ (El backend espera: nombre, email, password, rol)
+      const usuarioParaBackend = {
+        nombre: `${formData.nombres} ${formData.apellidos}`, // Unimos nombre y apellido
+        email: formData.correo,
+        password: formData.contraseña,
+        rol: "CLIENTE" // Valor obligatorio por defecto para la rúbrica
+      };
+
+      try {
+        console.log("Enviando datos al backend...", usuarioParaBackend);
+
+        // 2. Enviar petición POST al puerto 9090
+        const respuesta = await fetch("http://localhost:9090/api/usuarios/registro", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(usuarioParaBackend),
+        });
+
+        // 3. Verificar respuesta
+        if (respuesta.ok) {
+          const datosRespuesta = await respuesta.json();
+          alert(`✅ Cuenta creada con éxito! ID: ${datosRespuesta.id}`);
+          console.log("Respuesta del servidor:", datosRespuesta);
+          handleReset(); // Limpia el formulario
+        } else {
+          alert("❌ Error al registrar. Es posible que el correo ya esté en uso.");
+        }
+
+      } catch (error) {
+        console.error("Error conectando con el backend:", error);
+        alert("⚠️ No se pudo conectar con el servidor. Verifica que IntelliJ esté corriendo en el puerto 9090.");
+      }
+
     } else {
       const primerError = Object.values(erroresEncontrados).find(msg => msg);
       setErrorMsg(primerError || "Por favor, corrige los errores en el formulario.");
