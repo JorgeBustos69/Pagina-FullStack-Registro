@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Navegacion from "./Navegacion";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const AdminProductos = () => {
   const [productos, setProductos] = useState([]);
@@ -10,66 +10,102 @@ const AdminProductos = () => {
     imagenUrl: ""
   });
 
-  // ============================
-  // Cargar productos del backend
-  // ============================
+  useEffect(() => {
+    const rol = localStorage.getItem("rol");
+    const token = localStorage.getItem("token");
+
+    if (!token || rol !== "ADMIN") {
+        alert("⛔ Acceso denegado. Solo administradores.");
+        window.location.href = "/"; 
+    }
+  }, []);
+
+  const obtenerUrlImagen = (urlBaseDeDatos) => {
+    if (!urlBaseDeDatos) return "https://via.placeholder.com/150";
+    const nombreArchivo = urlBaseDeDatos.split('/').pop();
+    return `http://localhost:9090/${nombreArchivo}`;
+  };
+
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem("token");
+    return {
+      "Content-Type": "application/json",
+      "Authorization": token ? `Bearer ${token}` : ""
+    };
+  };
+
   const cargarProductos = async () => {
-    const res = await fetch("http://localhost:9090/api/productos");
-    const data = await res.json();
-    setProductos(data);
+    try {
+      const res = await fetch("http://localhost:9090/productos", {
+          method: "GET",
+          headers: getAuthHeaders()
+      });
+      
+      if (res.ok) {
+          const data = await res.json();
+          setProductos(data);
+      }
+    } catch (error) {
+      console.error("Error cargando productos:", error);
+    }
   };
 
   useEffect(() => {
     cargarProductos();
   }, []);
 
-  // ==================================
-  // Crear producto
-  // ==================================
   const crearProducto = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("http://localhost:9090/api/productos", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(nuevoProducto)
-    });
+    try {
+      const res = await fetch("http://localhost:9090/productos", {
+        method: "POST",
+        headers: getAuthHeaders(),
+        body: JSON.stringify(nuevoProducto)
+      });
 
-    if (res.ok) {
-      alert("Producto creado correctamente");
-      setNuevoProducto({ nombre: "", descripcion: "", precio: "", imagenUrl: "" });
-      cargarProductos();
+      if (res.ok) {
+        alert("Producto creado correctamente");
+        setNuevoProducto({ nombre: "", descripcion: "", precio: "", imagenUrl: "" });
+        cargarProductos();
+      } else {
+        alert("Error: No tienes permiso o faltan datos");
+      }
+    } catch (error) {
+       console.error(error);
     }
   };
 
-  // ==================================
-  // Eliminar producto
-  // ==================================
   const eliminarProducto = async (id) => {
     if (!window.confirm("¿Eliminar producto?")) return;
 
-    await fetch(`http://localhost:9090/api/productos/${id}`, {
-      method: "DELETE"
-    });
+    try {
+      const res = await fetch(`http://localhost:9090/productos/${id}`, {
+        method: "DELETE",
+        headers: getAuthHeaders()
+      });
 
-    cargarProductos();
+      if (res.ok) {
+          cargarProductos();
+      } else {
+          alert("Error al eliminar.");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
-    <>
-      <Navegacion />
+    <div className="container py-5">
+        <h2 className="text-center mb-4 text-brown">Administrar Productos</h2>
 
-      <div className="container py-5">
-        <h2 className="text-center mb-4">Administrar Productos</h2>
-
-        {/* FORMULARIO CREAR */}
-        <div className="card p-4 shadow-sm mb-4">
+        <div className="card p-4 shadow-sm mb-5">
           <h4 className="mb-3">Crear nuevo producto</h4>
 
           <form onSubmit={crearProducto}>
             <input
               className="form-control mb-2"
-              placeholder="Nombre"
+              placeholder="Nombre del pastel"
               value={nuevoProducto.nombre}
               onChange={(e) => setNuevoProducto({ ...nuevoProducto, nombre: e.target.value })}
               required
@@ -94,7 +130,7 @@ const AdminProductos = () => {
 
             <input
               className="form-control mb-2"
-              placeholder="URL de imagen"
+              placeholder="Nombre de archivo de imagen (ej: chocolate.jpg)"
               value={nuevoProducto.imagenUrl}
               onChange={(e) => setNuevoProducto({ ...nuevoProducto, imagenUrl: e.target.value })}
               required
@@ -104,24 +140,25 @@ const AdminProductos = () => {
           </form>
         </div>
 
-        {/* LISTA DE PRODUCTOS */}
+        <h4 className="mb-3">Inventario Actual</h4>
         <div className="row">
           {productos.map((producto) => (
             <div key={producto.id} className="col-md-4 mb-4">
-              <div className="card shadow-sm">
+              <div className="card shadow-sm h-100">
                 <img
-                  src={producto.imagenUrl}
+                  src={obtenerUrlImagen(producto.imagenUrl)}
                   className="card-img-top"
                   alt={producto.nombre}
                   style={{ height: "200px", objectFit: "cover" }}
+                  onError={(e) => { e.target.src = "https://via.placeholder.com/200?text=Error"; }}
                 />
-                <div className="card-body">
+                <div className="card-body d-flex flex-column">
                   <h5 className="fw-bold">{producto.nombre}</h5>
-                  <p className="text-muted">{producto.descripcion}</p>
+                  <p className="text-muted small">{producto.descripcion}</p>
                   <p className="fw-semibold text-success">${producto.precio}</p>
 
                   <button
-                    className="btn btn-danger w-100"
+                    className="btn btn-danger w-100 mt-auto"
                     onClick={() => eliminarProducto(producto.id)}
                   >
                     Eliminar Producto
@@ -132,7 +169,6 @@ const AdminProductos = () => {
           ))}
         </div>
       </div>
-    </>
   );
 };
 

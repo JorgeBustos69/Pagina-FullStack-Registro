@@ -29,6 +29,14 @@ const Catalogo = () => {
     cargarProductos();
   }, []);
 
+  const obtenerUrlImagen = (urlBaseDeDatos) => {
+    if (!urlBaseDeDatos) return "";
+    
+    const nombreArchivo = urlBaseDeDatos.split('/').pop();
+
+    return `http://localhost:9090/${nombreArchivo}`;
+  };
+
   if (cargando) {
     return (
       <h2 className="text-center mt-5 text-brown fw-bold">
@@ -59,9 +67,10 @@ const Catalogo = () => {
           >
             <div className="card shadow-sm border-0 rounded-4 w-100 h-100">
               <img
-                src={producto.imagenUrl}
+                src={obtenerUrlImagen(producto.imagenUrl)}
                 className="card-img-top rounded-top-4"
                 alt={producto.nombre}
+                onError={(e) => { e.target.src = "https://via.placeholder.com/230x230?text=No+Imagen"; }} 
                 style={{ height: "230px", objectFit: "cover" }}
               />
               <div className="card-body d-flex flex-column">

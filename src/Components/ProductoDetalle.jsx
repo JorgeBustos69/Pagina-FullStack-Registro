@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import Navegacion from "./Navegacion";  // Keep this import if needed in the main layout file
+import Navegacion from "./Navegacion"; 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/styleProducto.css";
 
@@ -8,6 +8,14 @@ const ProductoDetalle = () => {
   const { id } = useParams();
   const [producto, setProducto] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const obtenerUrlImagen = (urlBaseDeDatos) => {
+    if (!urlBaseDeDatos) return "https://via.placeholder.com/400x400?text=Sin+Imagen";
+    
+    const nombreArchivo = urlBaseDeDatos.split('/').pop();
+    
+    return `http://localhost:9090/${nombreArchivo}`;
+  };
 
   useEffect(() => {
     const fetchProducto = async () => {
@@ -35,6 +43,8 @@ const ProductoDetalle = () => {
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
     const existente = carrito.find((item) => item.id === producto.id);
 
+    const imagenLimpia = obtenerUrlImagen(producto.imagenUrl);
+
     if (existente) {
       existente.cantidad += 1;
     } else {
@@ -42,7 +52,7 @@ const ProductoDetalle = () => {
         id: producto.id,
         nombre: producto.nombre,
         precio: producto.precio,
-        imagen: producto.imagenUrl,
+        imagen: imagenLimpia,
         cantidad: 1,
       });
     }
@@ -75,10 +85,11 @@ const ProductoDetalle = () => {
       <div className="row align-items-center">
         <div className="col-md-6 text-center mb-4 mb-md-0">
           <img
-            src={producto.imagenUrl}
+            src={obtenerUrlImagen(producto.imagenUrl)}
             alt={producto.nombre}
             className="img-fluid rounded shadow-sm"
             style={{ maxHeight: "400px", objectFit: "cover" }}
+            onError={(e) => { e.target.src = "https://via.placeholder.com/400x400?text=Error+Carga"; }}
           />
         </div>
         <div className="col-md-6">

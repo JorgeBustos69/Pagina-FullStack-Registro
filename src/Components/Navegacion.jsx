@@ -4,36 +4,34 @@ import { Link } from "react-router-dom";
 const Navegacion = () => {
   const [usuario, setUsuario] = useState(null);
 
-useEffect(() => {
-  const cargarUsuario = () => {
-    const nombreGuardado = localStorage.getItem("nombre");
-    const rolGuardado = localStorage.getItem("rol");
-    const token = localStorage.getItem("token");
+  useEffect(() => {
+    const cargarUsuario = () => {
+      const nombreGuardado = localStorage.getItem("nombre");
+      const rolGuardado = localStorage.getItem("rol");
+      const token = localStorage.getItem("token");
 
-    if (token) {
-      setUsuario({
-        nombre: nombreGuardado || "Usuario",
-        rol: rolGuardado || "Cliente",
-      });
-    } else {
-      setUsuario(null);
-    }
-  };
+      if (token) {
+        setUsuario({
+          nombre: nombreGuardado || "Usuario",
+          rol: rolGuardado || "Cliente",
+        });
+      } else {
+        setUsuario(null);
+      }
+    };
 
-  cargarUsuario();
+    cargarUsuario();
 
+    window.addEventListener("storage", cargarUsuario);
 
-  window.addEventListener("storage", cargarUsuario);
-
-  return () => {
-    window.removeEventListener("storage", cargarUsuario);
-  };
-}, []);
-
+    return () => {
+      window.removeEventListener("storage", cargarUsuario);
+    };
+  }, []);
 
   const handleCerrarSesion = () => {
-    localStorage.clear(); 
-    window.location.href = "/login"; 
+    localStorage.clear();
+    window.location.href = "/login";
   };
 
   return (
@@ -42,7 +40,6 @@ useEffect(() => {
       style={{ backgroundColor: "#d89b6d" }}
     >
       <div className="container">
-
         <button
           className="navbar-toggler"
           type="button"
@@ -53,10 +50,11 @@ useEffect(() => {
         </button>
 
         <div className="collapse navbar-collapse" id="navbarNav">
-
           <ul className="navbar-nav me-auto">
             <li className="nav-item mx-3">
-              <Link className="nav-link fw-semibold text-dark" to="/">Inicio</Link>
+              <Link className="nav-link fw-semibold text-dark" to="/">
+                Inicio
+              </Link>
             </li>
 
             {!usuario && (
@@ -85,6 +83,15 @@ useEffect(() => {
                 Carrito
               </Link>
             </li>
+
+            {usuario && usuario.rol === "ADMIN" && (
+              <li className="nav-item mx-3">
+                <Link className="nav-link fw-semibold text-dark" to="/admin">
+                  ⚙️ Administrar
+                </Link>
+              </li>
+            )}
+            
           </ul>
 
           {usuario && (
@@ -100,7 +107,7 @@ useEffect(() => {
 
                 <ul className="dropdown-menu dropdown-menu-end">
                   <li>
-                    <button 
+                    <button
                       className="dropdown-item fw-semibold"
                       onClick={handleCerrarSesion}
                     >
@@ -111,7 +118,6 @@ useEffect(() => {
               </li>
             </ul>
           )}
-
         </div>
       </div>
     </nav>
